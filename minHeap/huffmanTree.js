@@ -85,20 +85,20 @@ class HuffmanTree {
   initTree(arr) {
     const minHeap = new MinHeap();
     minHeap.init(arr);
-    for (let i = 0; i < arr.length - 1; i++) {
+    let count = arr.length - 1;
+    //   循环n-1次
+    while (count > 0) {
       const first = minHeap.delMin();
       const second = minHeap.delMin();
-
-      let newItem = new CodeNode("", first.data.rate + second.data.rate);
-      let newNode = new TreeNode(newItem);
-      minHeap.insert(newNode);
-
-      newNode.lefChild = first;
-      newNode.rightChild = second;
-      first.parent = newNode;
-      second.parent = newNode;
-
-      this.root = newNode;
+      const newItem = new CodeNode("", first.data.rate + second.data.rate);
+      const newTree = new TreeNode(newItem);
+      newTree.lefChild = first;
+      newTree.rightChild = second;
+      first.parent = newTree;
+      second.parent = newTree;
+      minHeap.insert(newTree);
+      this.root = newTree;
+      count--;
     }
   }
 
@@ -115,6 +115,7 @@ class HuffmanTree {
         getCodeFromTree(node.rightChild, dict, codeStr + "1");
       }
     }
+
     const codeDict = {};
     getCodeFromTree(this.root, codeDict, "");
     return codeDict;

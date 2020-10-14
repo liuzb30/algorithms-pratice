@@ -26,5 +26,8 @@ class Stack {
   clear() {
     this.items = [];
   }
+  getData() {
+    return this.items;
+  }
 }
 module.exports = { Stack };

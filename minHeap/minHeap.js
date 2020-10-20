@@ -57,9 +57,9 @@ class MinHeap {
     }
   }
   insert(item) {
-    // if (this.currSize >= this.maxSize) {
-    //   return false;
-    // }
+    if (this.currSize >= this.maxSize) {
+      return false;
+    }
 
     this.heap[this.currSize] = item;
     this.shifUp(this.currSize);
@@ -120,19 +120,19 @@ module.exports = MinHeap;
 
 // console.log(sort_arr);
 
-var arr = [53, 17, 78, 9, 45, 65, 87, 23];
-var min_heap = new MinHeap(3);
+// var arr = [53, 17, 78, 9, 45, 65, 87, 23];
+// var min_heap = new MinHeap(3);
 
-for (var i = 0; i < 3; i++) {
-  min_heap.insert(arr[i]);
-}
+// for (var i = 0; i < 3; i++) {
+//   min_heap.insert(arr[i]);
+// }
 
-for (var i = 3; i < arr.length; i++) {
-  var item = arr[i];
-  if (item > min_heap.getMin()) {
-    min_heap.removeMin();
-    min_heap.insert(item);
-  }
-}
+// for (var i = 3; i < arr.length; i++) {
+//   var item = arr[i];
+//   if (item > min_heap.getMin()) {
+//     min_heap.removeMin();
+//     min_heap.insert(item);
+//   }
+// }
 
-min_heap.print();
+// min_heap.print();

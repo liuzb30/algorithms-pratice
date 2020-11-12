@@ -14,8 +14,8 @@
 var exist = function (board, word) {
   let row = board.length;
   let col = board[0].length;
-  for (let i = 0; i < board.length; i++) {
-    for (let j = 0; j < board[i].length; j++) {
+  for (let i = 0; i < row; i++) {
+    for (let j = 0; j < col; j++) {
       let res = find(i, j, 0);
       if (res) return true;
     }

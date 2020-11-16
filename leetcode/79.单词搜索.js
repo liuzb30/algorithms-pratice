@@ -14,29 +14,32 @@
 var exist = function (board, word) {
   let row = board.length;
   let col = board[0].length;
+
   for (let i = 0; i < row; i++) {
     for (let j = 0; j < col; j++) {
-      let res = find(i, j, 0);
-      if (res) return true;
+      if (find(i, j, 0)) return true;
     }
   }
   return false;
-  function find(i, j, k) {
-    //   终止条件
-    if (i >= row || i < 0) return false;
-    if (j >= col || j < 0) return false;
-    let letter = board[i][j];
-    if (letter !== word[k]) return false;
-    if (k === word.length - 1) return true;
-    // 把当前节点置空，防止重复执行
-    board[i][j] = null;
-    let ret =
-      find(i - 1, j, k + 1) ||
-      find(i + 1, j, k + 1) ||
-      find(i, j - 1, k + 1) ||
-      find(i, j + 1, k + 1);
-    // 还原当前节点
-    board[i][j] = letter;
+  function find(r, c, cur) {
+    // 结束条件
+    // 是否越界
+    if (r >= row || r < 0) return false;
+    if (c >= col || c < 0) return false;
+    // 是否要查找的值
+    let letter = board[r][c];
+    if (letter !== word[cur]) return false;
+    // 是否最后一个值
+    if (cur === word.length - 1) return true;
+    // 把当前值置空，避免重复查找
+    board[r][c] = null;
+    // 查找下一个
+    const ret =
+      find(r + 1, c, cur + 1) ||
+      find(r - 1, c, cur + 1) ||
+      find(r, c + 1, cur + 1) ||
+      find(r, c - 1, cur + 1);
+    board[r][c] = letter;
     return ret;
   }
 };

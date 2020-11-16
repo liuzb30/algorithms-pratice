@@ -15,31 +15,28 @@ var solveNQueens = function (n) {
   find(0);
   return ret;
   function find(row, tmp = []) {
-    if (row === n) {
+    // 结束条件
+    if (row == n) {
       ret.push(
-        tmp.map((colIndex, rowIndex) => {
+        tmp.map((c, r) => {
           let arr = new Array(n).fill(".");
-          arr[colIndex] = "Q";
+          arr[c] = "Q";
           return arr.join("");
         })
       );
     }
 
     for (let col = 0; col < n; col++) {
-      // 不能存放
-      let noset = tmp.some((colIndex, rowIndex) => {
-        // 用列来遍历，就不需要判断行了
-        return (
-          colIndex === col ||
-          rowIndex - colIndex === row - col ||
-          rowIndex + colIndex === row + col
-        );
+      // 判断是否冲突
+      let isConflict = tmp.some((c, r) => {
+        return c === col || c + r === row + col || r - c === row - col;
       });
-      if (noset) {
-        continue;
-      }
-      find(row + 1, [...tmp, col]);
+      if (isConflict) continue;
+      // 没冲突则缓存数据
+      find(row + 1, [...tmp, col]); //解构赋值，不要影响其他的tmp
     }
+
+    return false;
   }
 };
 // 先分析结束条件

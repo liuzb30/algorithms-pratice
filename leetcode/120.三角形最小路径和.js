@@ -9,32 +9,41 @@
  * @param {number[][]} triangle
  * @return {number}
  */
-var minimumTotal1 = function (triangle) {
-  let tmp = [];
-  for (let i = triangle.length - 1; i >= 0; i--) {
-    const item = triangle[i];
-    if (tmp[i + 1]) {
-      tmp[i] = [];
-      for (let j = 0; j < item.length; j++) {
-        tmp[i][j] = item[j] + Math.min(tmp[i + 1][j], tmp[i + 1][j + 1]);
-      }
-    } else {
-      tmp[i] = [...triangle[i]];
-    }
-    console.log(tmp);
-  }
-  return tmp[0];
-};
+// 确定问题类型 动态规划
+// 思考如何列出正确的状态
+// 确定base  找到最下面那层，返回结果
+// 确定状态 也就是原问题和子问题会变化的变量 第n层
+// 确定选择 导致状态变化的行为 相邻的节点
+// 明确 dp函数和数组的定义
+// 找出第n成到最后一层的最小路径和
 
 var minimumTotal = function (triangle) {
   let len = triangle.length - 1;
-  let tmp = triangle[len];
-  for (let i = len - 1; i >= 0; i--) {
-    for (let j = 0; j < triangle[i].length; j++) {
-      tmp[j] = triangle[i][j] + Math.min(tmp[j], tmp[j + 1]);
+  let temp = [];
+  function dp(n) {
+    if (n === len) {
+      temp = triangle[n];
+      return;
+    }
+    dp(n + 1);
+    console.log(temp);
+    for (let i = 0; i < triangle[n].length; i++) {
+      temp[i] = triangle[n][i] + Math.min(temp[i], temp[i + 1]);
     }
   }
-  return tmp[0];
+  dp(0);
+  return temp[0];
+};
+var minimumTotal = function (triangle) {
+  let len = triangle.length - 1;
+  let temp = triangle[len];
+  for (let i = len - 1; i >= 0; i--) {
+    let item = triangle[i];
+    for (let j = 0; j < item.length; j++) {
+      temp[j] = item[j] + Math.min(temp[j], temp[j + 1]);
+    }
+  }
+  return temp[0];
 };
 
 // @lc code=end

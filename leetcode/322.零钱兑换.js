@@ -10,6 +10,30 @@
  * @param {number} amount
  * @return {number}
  */
+// 确定问题是哪种类型？
+// 动态规划类型要符合最优子结构，要符合最优子结构，子问题间必须相互独立
+// 确定了是动态规划问题，思考如何列出正确的状态
+// 确定base  目标金额为0，返回0，金额小于0，返回-1
+// 确定状态 也就是原问题和子问题会变化的变量 amount
+// 确定选择 导致状态变化的行为 所有硬笔的面值会导致金额的变化
+// 明确 dp函数和数组的定义
+// dp 函数的参数就是状态转移中会变化的变量，也就是状态。
+// dp函数的定义 输入一个目标金额，返回凑出目标金额的最少硬币数
+
+// 列出伪代码
+// var coinChange = function (coins, amount) {
+//     // 定义 输入一个目标金额，返回凑出目标金额的最少硬币数
+//     function dp(n){
+//         // 做选择，选择需要硬币最少的结果
+//         for(let i = 0; i < coins.length; i++){
+//             res = min(res, dp(n-coins[i]))
+//         }
+//         return res
+//     }
+//     // 返回最终结果
+//     return dp(amount)
+// }
+
 var coinChange = function (coins, amount) {
   let memo = {};
   function dp(n) {

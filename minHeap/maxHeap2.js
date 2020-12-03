@@ -10,9 +10,12 @@ class MaxHeap {
   }
 
   delMax() {
+    // 获取最大值
     const max = this.mp[1];
-    this.exch(1, this.size--);
-    this.mp[this.size + 1] = null;
+    // 把第一个和最后一个交换
+    this.exch(1, this.size);
+    this.mp[this.size--] = null;
+    // 把第一个下沉
     this.sink(1);
     return max;
   }
@@ -21,25 +24,25 @@ class MaxHeap {
     return this.mp[i] < this.mp[j];
   }
   exch(i, j) {
-    const tmp = this.mp[i];
-    this.mp[i] = this.mp[j];
-    this.mp[j] = tmp;
+    [this.mp[i], this.mp[j]] = [this.mp[j], this.mp[i]];
   }
 
   swim(k) {
-    let p = Math.floor(k / 2);
+    let p = k >> 1;
+    // 当k>1且父节点小于当前节点，才做交换
     while (k > 1 && this.less(p, k)) {
       this.exch(p, k);
       k = p;
-      p = Math.floor(k / 2);
+      p = k >> 1;
     }
   }
 
   sink(k) {
     let n = this.size;
-    while (2 * k <= n) {
+    while (2 * k < n) {
       let j = 2 * k;
       if (j < n && this.less(j, j + 1)) j++;
+      // 如果当前节点比子节点大，跳出循环
       if (!this.less(k, j)) break;
       this.exch(k, j);
       k = j;

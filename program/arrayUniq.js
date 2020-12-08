@@ -11,8 +11,20 @@ function unique(arr){
   return ret
 };
 
+function unique(arr){
+  const obj = {}
+  const result = arr.filter(item=> {
+    let key= typeof item + JSON.stringify(item)
+    return obj[key] ? false : obj[key]=true
+  })
+  return result;
+}
 
 
-const  arr = [1,1,'true','true',true,true,15,15,false,false, undefined,undefined, null,null, NaN, NaN,'NaN', 0, 0, 'a', 'a',{},{}];
+
+// const  arr = [1,1,'true','true',true,true,15,15,false,false, undefined,undefined, null,null, NaN, NaN,'NaN', 0, 0, 'a', 'a',{},{}];
+// const arr = [123, "meili", "123", "mogu", 123] ;
+// const arr = [123, [1, 2, 3], [1, "2", 3], [1, 2, 3], "meili"] ;
+const arr = [123, {a: 1}, {a: {b: 1}}, {a: "1"}, {a: {b: 1}}, "meili"]
 
 console.log(unique(arr));

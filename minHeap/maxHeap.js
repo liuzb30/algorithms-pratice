@@ -1,4 +1,4 @@
-class MaxHeap {
+export class MaxHeap {
   constructor(size) {
     this.heap = new Array(size);
     this.currSize = 0;
@@ -92,14 +92,14 @@ class MaxHeap {
   }
 }
 
-const minHeap = new MaxHeap(20);
-const arr = [53, 17, 78, 9, 45, 65, 87, 23];
-minHeap.init(arr);
+// const minHeap = new MaxHeap(20);
+// const arr = [53, 17, 78, 9, 45, 65, 87, 23];
+// minHeap.init(arr);
 
-minHeap.print();
-minHeap.insert(11);
+// minHeap.print();
+// minHeap.insert(11);
 
-minHeap.print();
+// minHeap.print();
 
-minHeap.removeMax();
-minHeap.print();
+// minHeap.removeMax();
+// minHeap.print();

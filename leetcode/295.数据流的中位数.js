@@ -8,8 +8,198 @@
 /**
  * initialize your data structure here.
  */
+
+class MinHeap {
+  constructor(size) {
+    this.heap = new Array(size);
+    this.currSize = 0;
+    this.maxSize = size;
+  }
+  init(arr) {
+    this.maxSize = arr.length;
+    this.currSize = this.maxSize;
+    this.heap = new Array(arr.length);
+    // 填充heap, 目前还不是一个堆
+    for (var i = 0; i < this.currSize; i++) {
+      this.heap[i] = arr[i];
+    }
+
+    let currPos = Math.floor((this.currSize - 2) / 2);
+
+    while (currPos >= 0) {
+      this.shifDown(currPos, this.currSize - 1);
+      currPos -= 1;
+    }
+  }
+  shifDown(start, m) {
+    let parentIndex = start;
+    let minChildIndex = parentIndex * 2 + 1;
+    const heap = this.heap;
+    while (minChildIndex <= m) {
+      if (minChildIndex < m && heap[minChildIndex] > heap[minChildIndex + 1]) {
+        minChildIndex = minChildIndex + 1;
+      }
+
+      if (heap[parentIndex] <= heap[minChildIndex]) {
+        break;
+      } else {
+        const temp = heap[parentIndex];
+        heap[parentIndex] = heap[minChildIndex];
+        heap[minChildIndex] = temp;
+        parentIndex = minChildIndex;
+        minChildIndex = 2 * minChildIndex + 1;
+      }
+    }
+  }
+  shifUp(start) {
+    let childIndex = start;
+    let parentIndex = Math.floor((childIndex - 1) / 2);
+    const heap = this.heap;
+    while (childIndex > 0) {
+      if (heap[parentIndex] <= heap[childIndex]) {
+        break;
+      } else {
+        const tmp = heap[childIndex];
+        heap[childIndex] = heap[parentIndex];
+        heap[parentIndex] = tmp;
+        childIndex = parentIndex;
+        parentIndex = Math.floor((parentIndex - 1) / 2);
+      }
+    }
+  }
+  insert(item) {
+    if (this.currSize >= this.maxSize) {
+      return false;
+    }
+
+    this.heap[this.currSize] = item;
+    this.shifUp(this.currSize);
+    this.currSize++;
+    return true;
+  }
+  removeMin() {
+    if (this.currSize <= 0) {
+      return null;
+    }
+
+    let minVal = this.heap[0];
+    this.heap[0] = this.heap[this.currSize - 1];
+    this.currSize--;
+    this.shifDown(0, this.currSize - 1);
+    this.heap.splice(this.currSize, 1);
+    return minVal;
+  }
+  getMin() {
+    if (this.currSize > 0) {
+      return this.heap[0];
+    }
+    return null;
+  }
+  print() {
+    console.log(this.heap);
+  }
+  size() {
+    return this.currSize;
+  }
+}
+
+class MaxHeap {
+  constructor(size) {
+    this.heap = new Array(size);
+    this.currSize = 0;
+    this.maxSize = size;
+  }
+  init(arr) {
+    this.maxSize = arr.length;
+    this.currSize = this.maxSize;
+    this.heap = new Array(arr.length);
+    // 填充heap, 目前还不是一个堆
+    for (var i = 0; i < this.currSize; i++) {
+      this.heap[i] = arr[i];
+    }
+
+    let currPos = Math.floor((this.currSize - 2) / 2);
+
+    while (currPos >= 0) {
+      this.shifDown(currPos, this.currSize - 1);
+      currPos -= 1;
+    }
+  }
+  shifDown(start, m) {
+    let parentIndex = start;
+    let maxChildIndex = parentIndex * 2 + 1;
+    const heap = this.heap;
+    while (maxChildIndex <= m) {
+      if (maxChildIndex < m && heap[maxChildIndex] < heap[maxChildIndex + 1]) {
+        maxChildIndex = maxChildIndex + 1;
+      }
+
+      if (heap[parentIndex] >= heap[maxChildIndex]) {
+        break;
+      } else {
+        const temp = heap[parentIndex];
+        heap[parentIndex] = heap[maxChildIndex];
+        heap[maxChildIndex] = temp;
+        parentIndex = maxChildIndex;
+        maxChildIndex = 2 * maxChildIndex + 1;
+      }
+    }
+  }
+  shifUp(start) {
+    let childIndex = start;
+    let parentIndex = Math.floor((childIndex - 1) / 2);
+    const heap = this.heap;
+    while (childIndex > 0) {
+      if (heap[parentIndex] >= heap[childIndex]) {
+        break;
+      } else {
+        const tmp = heap[childIndex];
+        heap[childIndex] = heap[parentIndex];
+        heap[parentIndex] = tmp;
+        childIndex = parentIndex;
+        parentIndex = Math.floor((parentIndex - 1) / 2);
+      }
+    }
+  }
+  insert(item) {
+    // if (this.currSize >= this.maxSize) {
+    //   return false;
+    // }
+
+    this.heap[this.currSize] = item;
+    this.shifUp(this.currSize);
+    this.currSize++;
+    return true;
+  }
+  removeMax() {
+    if (this.currSize <= 0) {
+      return null;
+    }
+
+    let maxVal = this.heap[0];
+    this.heap[0] = this.heap[this.currSize - 1];
+    this.currSize--;
+    this.shifDown(0, this.currSize - 1);
+    this.heap.splice(this.currSize, 1);
+    return maxVal;
+  }
+  getMax() {
+    if (this.currSize > 0) {
+      return this.heap[0];
+    }
+    return null;
+  }
+  print() {
+    console.log(this.heap);
+  }
+  size() {
+    return this.currSize;
+  }
+}
+
 var MedianFinder = function () {
-  this.data = [];
+  this.minHeap = new MinHeap();
+  this.maxHeap = new MaxHeap();
 };
 
 /**
@@ -17,16 +207,17 @@ var MedianFinder = function () {
  * @return {void}
  */
 MedianFinder.prototype.addNum = function (num) {
-  let length = this.data.length;
-  if (length === 0) {
-    this.data.push(num);
+  if (!this.maxHeap.size() || num < this.maxHeap.getMax()) {
+    this.maxHeap.insert(num);
   } else {
-    let n = length - 1;
-    while (n >= 0 && num < this.data[n]) {
-      this.data[n + 1] = this.data[n];
-      n--;
-    }
-    this.data[n + 1] = num;
+    this.minHeap.insert(num);
+  }
+  //   比较大小顶堆是否保持平衡
+  if (this.maxHeap.size() - this.minHeap.size() > 1) {
+    this.minHeap.insert(this.maxHeap.removeMax());
+  }
+  if (this.minHeap.size() > this.maxHeap.size()) {
+    this.maxHeap.insert(this.minHeap.removeMin());
   }
 };
 
@@ -34,14 +225,11 @@ MedianFinder.prototype.addNum = function (num) {
  * @return {number}
  */
 MedianFinder.prototype.findMedian = function () {
-  const length = this.data.length;
-  if (length % 2 === 0) {
-    let mid = length >> 1;
-    const num1 = this.data[mid - 1];
-    const num2 = this.data[mid];
-    return (num1 + num2) / 2;
+  let totalSize = this.maxHeap.size() + this.minHeap.size();
+  if (totalSize % 2 === 0) {
+    return (this.maxHeap.getMax() + this.minHeap.getMin()) / 2;
   } else {
-    return this.data[length >> 1];
+    return this.maxHeap.getMax();
   }
 };
 

@@ -17,18 +17,27 @@
  * @return {ListNode}
  */
 var reverseList = function (head) {
-  function reverse(node) {
-    if (!node || !node.next) {
-      return node;
-    }
-    // 找到最终的节点
-    let next = reverse(node.next);
-    // 把下个节点的next指向当前节点，当前节点的next指向null
-    node.next.next = node;
-    node.next = null;
-    return next;
+  let pre = null
+  let current = head
+  while (current) {
+    let next = current.next
+    current.next = pre
+    pre = current
+    current = next
   }
-
-  return reverse(head);
+  return pre
 };
+
+// var reverseList = function (head) {
+//   function reverse(node) {
+//     if (!node || !node.next) {
+//       return node
+//     }
+//     let next = reverse(node.next)
+//     node.next.next = node
+//     node.next = null
+//     return next
+//   }
+//   return reverse(head)
+// }
 // @lc code=end

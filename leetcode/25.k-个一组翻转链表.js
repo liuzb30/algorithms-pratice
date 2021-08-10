@@ -17,53 +17,6 @@
  * @param {number} k
  * @return {ListNode}
  */
-var reverseKGroup = function (head, k) {
-    let count = 0;
-    // 看能否构成一组，并统计链表元素个数
-    for (let p = head; p != null; p = p.next) {
-        if (p == null && count < k) return head
-        count++
-    }
-
-    let loopCount = Math.floor(count / k)
-    let p = dummyHead = new ListNode()
-    dummyHead.next = head
-
-    for (let i = 0; i < loopCount; i++) {
-        let pre = null, cur = p.next
-        for (let j = 0; j < k; j++) {
-            let next = cur.next
-            cur.next = pre
-            pre = cur
-            cur = next
-        }
-        // 当前pre为该组的尾节点，cur为下一组首节点
-        let start = p.next;
-        p.next = pre
-        start.next = cur
-        p = start
-    }
-    return dummyHead.next
-}
-// var reverseKGroup = function (head, k) {
-//     let pre = null, cur = head;
-//     let p = head;
-//     // 检验后面的元素能否组成一组
-//     for (let i = 0; i < k; i++) {
-//         if (p == null) return head
-//         p = p.next
-//     }
-//     // 翻转当前组
-//     for (let i = 0; i < k; i++) {
-//         let next = cur.next
-//         cur.next = pre
-//         pre = cur
-//         cur = next
-//     }
-//     // pre为本组最后一个节点，cur为下一组的起点
-//     head.next = reverseKGroup(cur, k)
-//     return pre
-// };
 // var reverseKGroup = function (head, k) {
 //     // 从后往前处理，所以要找到下一组的头节点
 //     let cur = head
@@ -87,5 +40,55 @@ var reverseKGroup = function (head, k) {
 //     }
 //     return head
 // };
+// 递归思路:判断长度是否大于k，如果没有则返回head，有则反转，把head节点指向下一组的head节点，然后返回当前组的尾节点。
+var reverseKGroup = function (head, k) {
+    let pre = null, cur = head
+    // 判断长度
+    let p = head
+    for (let i = 0; i < k; i++) {
+        if (p == null) return head
+        p = p.next
+    }
+    // 反转
+    for (let i = 0; i < k; i++) {
+        let next = cur.next
+        cur.next = pre
+        pre = cur
+        cur = next
+    }
+    head.next = reverseKGroup(cur, k)
+    return pre
+}
+
+// 循环思路：先算出总长度，如果长度小于k，则直接返回head；如果长度大于k，则算出需要循环的次数。在循环每个组的最后，要把首尾节点连接起来。
+var reverseKGroup = function (head, k) {
+
+    // 判断长度
+    let count = 0
+    for (let p = head; p != null; p = p.next) {
+        if (p == null && count < k) return head
+        count++
+    }
+    const loopCount = Math.floor(count / k)
+    let p = dummyHead = new ListNode()
+    dummyHead.next = head
+    // 反转
+    for (let i = 0; i < loopCount; i++) {
+        let pre = p, cur = p.next
+        for (let j = 0; j < k; j++) {
+            let next = cur.next
+            cur.next = pre
+            pre = cur
+            cur = next
+        }
+        let start = p.next
+        p.next = pre
+        start.next = cur
+        p = start
+    }
+
+    return dummyHead.next
+
+}
 // @lc code=end
 

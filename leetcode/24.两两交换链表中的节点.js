@@ -16,29 +16,29 @@
  * @param {ListNode} head
  * @return {ListNode}
  */
+// 循环
+// var swapPairs = function (head) {
+//     if (head == null || head.next == null) return head
+//     let p = dummyHead = new ListNode()
+//     p.next = head;
+
+//     while ((node1 = p.next) && (node2 = p.next.next)) {
+//         let next = node2.next
+//         node2.next = node1
+//         p.next = node2
+//         node1.next = next
+//         p = node1
+//     }
+
+//     return dummyHead.next
+// }
+// 递归思路：递归主要是要推导出这个函数要做什么，在这个例子中，我们需要做的就是把2的next指向1,1指向4(4的next指向3,3的next指向null,返回4)，然后返回2。从这里可以看出递归函数的功能。
 var swapPairs = function (head) {
     if (head == null || head.next == null) return head
     let node1 = head, node2 = head.next
     node1.next = swapPairs(node2.next)
     node2.next = node1
     return node2
-};
-
-// var swapPairs = function (head) {
-//     if (head == null || head.next == null) return head
-//     let node1, node2
-//     let p = dummyHead = new ListNode()
-//     p.next = head
-
-//     while ((node1 = p.next) && (node2 = p.next.next)) {
-//         node1.next = node2.next
-//         node2.next = node1
-//         p.next = node2
-//         p = node1
-//     }
-
-//     return dummyHead.next
-
-// };
+}
 // @lc code=end
 

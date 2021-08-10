@@ -17,31 +17,26 @@
  * @param {ListNode} head
  * @return {boolean}
  */
-// var hasCycle1 = function (head) {
-//   let cache = new Set();
-//   while (head) {
-//     if (cache.has(head)) {
-//       return true;
-//     } else {
-//       cache.add(head);
-//     }
-//     head = head.next;
+// 思路：循环一遍，用set数据结构来保存节点，利用节点的内存地址来进行判重，如果相同则表明有环
+// var hasCycle = function (head) {
+//   let p = head
+//   let s = new Set()
+//   while (p) {
+//     if (s.has(p)) return true
+//     s.add(p)
+//     p = p.next
 //   }
-//   return false;
-// };
+//   return false
+// }
+// 思路：利用快慢指针，快指针一次走两步，慢指针一次走一步，如果两者相遇则形成环。
 var hasCycle = function (head) {
-  if (!head || !head.next) {
-    return false;
+  if (head == null || head.next == null) return false
+  let slow = head, fast = head.next
+  while (fast.next && fast.next.next) {
+    slow = slow.next
+    fast = fast.next.next
+    if (slow === fast) return true
   }
-  let fast = head.next.next;
-  let slow = head.next;
-  while (fast && fast.next) {
-    if (slow.val === fast.val) {
-      return true;
-    }
-    slow = slow.next;
-    fast = fast.next.next;
-  }
-  return false;
-};
+  return false
+}
 // @lc code=end

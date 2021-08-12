@@ -9,31 +9,18 @@
  * @param {string} s
  * @return {boolean}
  */
+// 思路：用栈来存储数据，当遇到[({则入栈，遇到]})则判断栈顶是否对应的符号，是则出栈，不是则返回false。最后再判断栈是否为空
 var isValid = function (s) {
-  if (s.length % 2 !== 0 || s.length === 0) {
-    return false;
-  }
-  let stack = [];
-  // 遇到([{则入栈，遇到)]}则判断栈顶是否对应的左括号
-  const map = {
-    ")": "(",
-    "]": "[",
-    "}": "{",
-  };
-  const lq = ["(", "{", "["];
+  const charMap = { '{': '}', '[': ']', '(': ')' }
+  const stack = []
   for (let i = 0; i < s.length; i++) {
-    const element = s[i];
-    if (lq.indexOf(element) !== -1) {
-      stack.push(element);
-    } else {
-      if (map[element] !== stack[stack.length - 1]) {
-        return false;
-      }
-      stack.pop();
+    let item = s[i]
+    if (charMap[item]) {
+      stack.push(item)
+    } else if (item === ')' || item === '}' || item === ']') {
+      if (charMap[stack.pop()] !== item) return false
     }
   }
-
-  // 最后判断栈是否为空
-  return stack.length === 0 ? true : false;
-};
+  return stack.length ? false : true
+}
 // @lc code=end

@@ -13,36 +13,40 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
-class Tag {
-  constructor(node, status) {
-    this.node = node;
-    this.status = status; // 0表示左边已经遍历结束,1表示右边已经遍历结束
-  }
-}
 /**
  * @param {TreeNode} root
  * @return {number[]}
  */
 var postorderTraversal = function (root) {
-  let cur = root;
-  let stack = [];
-  let result = [];
-
-  while (cur || stack.length) {
-    while (cur) {
-      let tag = new Tag(cur, 0);
-      stack.push(tag);
-      cur = cur.left;
+  const res = []
+  const traverse = (node) => {
+    if (node == null) return
+    traverse(node.left)
+    traverse(node.right)
+    res.push(node.val)
+  }
+  traverse(root)
+  return res
+}
+var postorderTraversal = function (root) {
+  let res = [], stack = [], visited = new Set()
+  let p = root
+  while (p || stack.length) {
+    while (p) {
+      stack.push(p)
+      p = p.left
     }
-    tag = stack.pop();
-    if (tag.node.right && tag.status === 0) {
-      tag.status = 1; // 标记已经访问
-      stack.push(tag);
-      cur = tag.node.right;
+    // 获取栈顶元素
+    let node = stack[stack.length - 1]
+    // 判断是否有右节点且没访问过
+    if (node.right && !visited.has(node.right)) {
+      p = node.right
+      visited.add(p)
     } else {
-      result.push(tag.node.val);
+      node = stack.pop()
+      res.push(node.val)
     }
   }
-  return result;
-};
+  return res
+}
 // @lc code=end

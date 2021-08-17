@@ -17,31 +17,26 @@
  * @return {number}
  */
 // 递归
-var maxDepth1 = function (root) {
-  if (!root) {
-    return 0;
-  }
-  return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
-};
-// 广度优先
+// 思路: 父节点的深度 = 左右节点的最大深度 + 1
 var maxDepth = function (root) {
-  if (!root) {
-    return 0;
-  }
-  let queue = [];
-  queue.push(root);
-  let result = 0;
+  if (root == null) return 0
+  return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1
+}
+
+// 迭代
+var maxDepth = function (root) {
+  if (root == null) return 0
+  let depth = 0
+  let queue = [root]
   while (queue.length) {
-    let size = queue.length;
-    // 遍历当前队列的节点，并把节点出队列，把子节点入队列
-    while (size > 0) {
-      let node = queue.shift();
-      node.left && queue.push(node.left);
-      node.right && queue.push(node.right);
-      size--;
+    let len = queue.length
+    while (len--) {
+      let node = queue.shift()
+      if (node.left) queue.push(node.left)
+      if (node.right) queue.push(node.right)
     }
-    result++;
+    depth++
   }
-  return result;
-};
+  return depth
+}
 // @lc code=end

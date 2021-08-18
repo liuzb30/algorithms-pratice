@@ -18,17 +18,38 @@
  * @param {TreeNode} q
  * @return {TreeNode}
  */
-// 这个函数的功能是
-// 给定两个节点 p 和 q
-// 如果 p 和 q 都存在，则返回它们的公共祖先；
-// 如果只存在一个，则返回存在的一个；
-// 如果 p 和 q 都不存在，则返回NULL
+// 祖先节点集合法
 var lowestCommonAncestor = function (root, p, q) {
-  if (!root || root === p || root === q) {
-    return root;
+  let stack = [root], parentsMap = new WeakMap(), pSet = new Set()
+  // 遍历二叉树获取所有节点的父节点
+  while (stack.length) {
+    const node = stack.pop()
+    if (node.left) {
+      stack.push(node.left)
+      parentsMap.set(node.left, node)
+    }
+    if (node.right) {
+      stack.push(node.right)
+      parentsMap.set(node.right, node)
+    }
   }
-  let left = lowestCommonAncestor(root.left, p, q);
-  let right = lowestCommonAncestor(root.right, p, q);
-  return !left ? right : !right ? left : root;
-};
+  // 获取p节点的祖先集合
+  while (p) {
+    pSet.add(p, 1)
+    p = parentsMap.get(p)
+  }
+  while (q) {
+    if (pSet.has(q)) return q
+    q = parentsMap.get(q)
+  }
+}
+// 递归
+var lowestCommonAncestor = function (root, p, q) {
+  if (root == null || root == p || root == q) return root
+  let left = lowestCommonAncestor(root.left, p, q)
+  let right = lowestCommonAncestor(root.right, p, q)
+  if (left == null) return right
+  if (right == null) return left
+  return root
+}
 // @lc code=end

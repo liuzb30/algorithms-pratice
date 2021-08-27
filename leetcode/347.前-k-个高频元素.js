@@ -17,7 +17,7 @@
 //     .sort((a, b) => map[b] - map[a])
 //     .slice(0, k);
 // };
-let topKFrequent = function (nums, k) {
+var topKFrequent = function (nums, k) {
   let map = new Map(),
     heap = [,];
   nums.map((num) => {
@@ -64,26 +64,20 @@ let buildHeap = (heap, map, k) => {
 let heapify = (heap, map, k, i) => {
   // 自上而下式堆化
   while (true) {
-    let minIndex = i;
+    let min = i;
     if (2 * i <= k && map.get(heap[2 * i]) < map.get(heap[i])) {
-      minIndex = 2 * i;
+      min = 2 * i;
     }
-    if (2 * i + 1 <= k && map.get(heap[2 * i + 1]) < map.get(heap[minIndex])) {
-      minIndex = 2 * i + 1;
+    if (2 * i + 1 <= k && map.get(heap[2 * i + 1]) < map.get(heap[min])) {
+      min = 2 * i + 1;
     }
-    if (minIndex !== i) {
-      swap(heap, i, minIndex);
-      i = minIndex;
+    if (min !== i) {
+      [heap[i], heap[min]] = [heap[min], heap[i]]
+      i = min;
     } else {
       break;
     }
   }
 };
 
-// 交换
-let swap = (arr, i, j) => {
-  let temp = arr[i];
-  arr[i] = arr[j];
-  arr[j] = temp;
-};
 // @lc code=end

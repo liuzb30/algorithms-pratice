@@ -17,21 +17,6 @@
  * @param {TreeNode} root
  * @return {number[]}
  */
-// var inorderTraversal = function (root) {
-//   let result = [];
-//   let stack = [];
-//   let cur = root;
-//   while (cur || stack.length) {
-//     while (cur) {
-//       stack.push(cur);
-//       cur = cur.left;
-//     }
-//     cur = stack.pop();
-//     result.push(cur.val);
-//     cur = cur.right;
-//   }
-//   return result;
-// };
 // 递归
 var inorderTraversal = function (root) {
   const result = []
@@ -46,17 +31,48 @@ var inorderTraversal = function (root) {
 }
 
 // 迭代
+// var inorderTraversal = function (root) {
+//   const res = [], stack = []
+//   let p = root
+//   while (p || stack.length) {
+//     while (p) {
+//       stack.push(p)
+//       p = p.left
+//     }
+//     let node = stack.pop()
+//     res.push(node.val)
+//     p = node.right
+//   }
+//   return res
+// }
+// var inorderTraversal = function (root) {
+//   let res = [], stack = []
+//   let cur = root
+//   while (cur || stack.length) {
+//     if (cur) {
+//       stack.push(cur)
+//       cur = cur.left
+//     } else {
+//       cur = stack.pop()
+//       res.push(cur.val)
+//       cur = cur.right
+//     }
+//   }
+//   return res
+// }
 var inorderTraversal = function (root) {
-  const res = [], stack = []
-  let p = root
-  while (p || stack.length) {
-    while (p) {
-      stack.push(p)
-      p = p.left
+  if (!root) return []
+  const res = [], stack = [root]
+  while (stack.length) {
+    const node = stack.pop()
+    if (!node) {
+      res.push(stack.pop().val)
+      continue
     }
-    let node = stack.pop()
-    res.push(node.val)
-    p = node.right
+    node.right && stack.push(node.right)
+    stack.push(node)
+    stack.push(null)
+    node.left && stack.push(node.left)
   }
   return res
 }

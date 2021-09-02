@@ -17,23 +17,39 @@
  * @param {TreeNode} root
  * @return {number[]}
  */
+// var rightSideView = function (root) {
+//     if (!root) return [];
+//     let queue = [];
+//     let res = [];
+//     queue.push(root);
+//     while (queue.length) {
+//         console.log(queue[0].val);
+//         res.push(queue[0].val);
+//         let size = queue.length;
+//         while (size--) {
+//             // 一个size的循环就是一层的遍历，在这一层只拿最右边的结点
+//             let front = queue.shift();
+//             if (front.right) queue.push(front.right);
+//             if (front.left) queue.push(front.left);
+//         }
+//     }
+//     return res;
+// };
 var rightSideView = function (root) {
-    if (!root) return [];
-    let queue = [];
-    let res = [];
-    queue.push(root);
+    if (!root) return []
+    const res = [], queue = [root]
     while (queue.length) {
-        console.log(queue[0].val);
-        res.push(queue[0].val);
-        let size = queue.length;
-        while (size--) {
-            // 一个size的循环就是一层的遍历，在这一层只拿最右边的结点
-            let front = queue.shift();
-            if (front.right) queue.push(front.right);
-            if (front.left) queue.push(front.left);
+        let len = queue.length
+        while (len--) {
+            const node = queue.shift()
+            node.left && queue.push(node.left)
+            node.right && queue.push(node.right)
+            if (len === 0) {
+                res.push(node.val)
+            }
         }
     }
-    return res;
-};
+    return res
+}
 // @lc code=end
 

@@ -17,17 +17,17 @@
  * @param {TreeNode} root
  * @return {number[]}
  */
-var postorderTraversal = function (root) {
-  const res = []
-  const traverse = (node) => {
-    if (node == null) return
-    traverse(node.left)
-    traverse(node.right)
-    res.push(node.val)
-  }
-  traverse(root)
-  return res
-}
+// var postorderTraversal = function (root) {
+//   const res = []
+//   const traverse = (node) => {
+//     if (node == null) return
+//     traverse(node.left)
+//     traverse(node.right)
+//     res.push(node.val)
+//   }
+//   traverse(root)
+//   return res
+// }
 var postorderTraversal = function (root) {
   let res = [], stack = [], visited = new Set()
   let p = root
@@ -49,4 +49,15 @@ var postorderTraversal = function (root) {
   }
   return res
 }
+// var postorderTraversal = function (root) {
+//   if (!root) return []
+//   let res = [], stack = [root]
+//   while (stack.length) {
+//     let node = stack.pop()
+//     res.push(node.val)
+//     node.left && stack.push(node.left)
+//     node.right && stack.push(node.right)
+//   }
+//   return res.reverse()
+// }
 // @lc code=end

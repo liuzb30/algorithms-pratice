@@ -54,6 +54,39 @@ var binaryTreePaths = function (root) {
     }
     return res
 }
-
+// var binaryTreePaths = function (root) {
+//     const res = []
+//     const getPath = (node, path = '') => {
+//         path += node.val
+//         if (!node.left && !node.right) {
+//             res.push(path)
+//             return
+//         }
+//         node.left && getPath(node.left, path + '->')
+//         node.right && getPath(node.right, path + '->')
+//     }
+//     getPath(root)
+//     return res
+// }
+// var binaryTreePaths = function (root) {
+//     let res = [], stack = [root], pathSt = [root.val.toString()]
+//     while (stack.length) {
+//         const node = stack.pop()
+//         console.log(pathSt);
+//         const path = pathSt.pop()
+//         if (!node.left && !node.right) {
+//             res.push(path)
+//         }
+//         if (node.right) {
+//             stack.push(node.right)
+//             pathSt.push(path + '->' + node.right.val)
+//         }
+//         if (node.left) {
+//             stack.push(node.left)
+//             pathSt.push(path + '->' + node.left.val)
+//         }
+//     }
+//     return res
+// }
 // @lc code=end
 

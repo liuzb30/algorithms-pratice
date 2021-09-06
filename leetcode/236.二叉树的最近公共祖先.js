@@ -20,36 +20,12 @@
  */
 // 祖先节点集合法
 var lowestCommonAncestor = function (root, p, q) {
-  let stack = [root], parentsMap = new WeakMap(), pSet = new Set()
-  // 遍历二叉树获取所有节点的父节点
-  while (stack.length) {
-    const node = stack.pop()
-    if (node.left) {
-      stack.push(node.left)
-      parentsMap.set(node.left, node)
-    }
-    if (node.right) {
-      stack.push(node.right)
-      parentsMap.set(node.right, node)
-    }
-  }
-  // 获取p节点的祖先集合
-  while (p) {
-    pSet.add(p, 1)
-    p = parentsMap.get(p)
-  }
-  while (q) {
-    if (pSet.has(q)) return q
-    q = parentsMap.get(q)
-  }
-}
-// 递归
-var lowestCommonAncestor = function (root, p, q) {
-  if (root == null || root == p || root == q) return root
-  let left = lowestCommonAncestor(root.left, p, q)
-  let right = lowestCommonAncestor(root.right, p, q)
-  if (left == null) return right
-  if (right == null) return left
+  if (!root) return root
+  if (root === p || root === q) return root
+  const left = lowestCommonAncestor(root.left, p, q)
+  const right = lowestCommonAncestor(root.right, p, q)
+  if (!right) return left
+  if (!left) return right
   return root
 }
 // @lc code=end

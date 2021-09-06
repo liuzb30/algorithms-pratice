@@ -17,18 +17,29 @@
  * @param {number[]} nums
  * @return {TreeNode}
  */
+// var sortedArrayToBST = function (nums) {
+//     const traversal = (nums, left, right) => {
+//         // 1.确定入参和返回值
+//         // 2.确定终止条件
+//         if (left > right) return null
+//         // 3.确定单层逻辑
+//         let mid = (left + right) >> 1
+//         let root = new TreeNode(nums[mid])
+//         root.left = traversal(nums, left, mid - 1)
+//         root.right = traversal(nums, mid + 1, right)
+//         return root
+//     }
+//     return traversal(nums, 0, nums.length - 1)
+// };
 var sortedArrayToBST = function (nums) {
-    const help = (start, end) => {
-        if (start > end) return null
-        if (start === end) return new TreeNode(nums[start])
-        let mid = Math.floor((start + end) / 2)
-        let node = new TreeNode(nums[mid])
-        node.left = help(start, mid - 1)
-        node.right = help(mid + 1, end)
-        return node
-    }
-    return help(0, nums.length - 1)
-};
+    const len = nums.length
+    if (!len) return null
+    let mid = len >> 1
+    const root = new TreeNode(nums[mid])
+    root.left = sortedArrayToBST(nums.slice(0, mid))
+    root.right = sortedArrayToBST(nums.slice(mid + 1, len))
+    return root
+}
 
 // @lc code=end
 

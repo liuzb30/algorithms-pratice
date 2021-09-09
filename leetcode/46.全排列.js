@@ -11,21 +11,20 @@
  */
 
 var permute = function (nums) {
-  let ret = [];
-  let len = nums.length;
-  backtrack();
-  return ret;
-  function backtrack(tmp = []) {
-    if (tmp.length === len) {
-      ret.push([...tmp]);
-      return;
+  let res = [], path = []
+  backTracking()
+  return res
+  function backTracking() {
+    if (path.length === nums.length) {
+      res.push([...path])
+      return
     }
-    for (let i = 0; i < len; i++) {
-      let item = nums[i];
-      if (tmp.includes(item)) continue;
-      tmp.push(item);
-      backtrack(tmp);
-      tmp.pop(item);
+    for (let i = 0; i < nums.length; i++) {
+      // 如果路径已经包含了当前值，则跳过
+      if (path.includes(nums[i])) continue
+      path.push(nums[i])
+      backTracking()
+      path.pop()
     }
   }
 };

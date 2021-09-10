@@ -9,66 +9,41 @@
  * @param {number} n
  * @return {string[][]}
  */
-// var solveNQueens = function (n) {
-//   let ret = [];
 
-//   find(0);
-//   return ret;
-//   function find(row, tmp = []) {
-//     // 结束条件
-//     if (row == n) {
-//       ret.push(
-//         tmp.map((c, r) => {
-//           let arr = new Array(n).fill(".");
-//           arr[c] = "Q";
-//           return arr.join("");
-//         })
-//       );
-//     }
-
-//     for (let col = 0; col < n; col++) {
-//       // 判断是否冲突
-//       let isConflict = tmp.some((c, r) => {
-//         return c === col || c + r === row + col || r - c === row - col;
-//       });
-//       if (isConflict) continue;
-//       // 没冲突则缓存数据
-//       find(row + 1, [...tmp, col]); //解构赋值，不要影响其他的tmp
-//     }
-
-//     return false;
-//   }
-// };
 var solveNQueens = function (n) {
-  let res = []
-  const generateStr = arr => {
-    return arr.map((col) => {
-      const tmp = new Array(n).fill('.')
-      tmp[col] = 'Q'
-      return tmp.join('')
-    })
-  }
-  const isValid = (row, col, arr) => {
-    return !arr.some((c, r) => {
-      return c === col || r + c === row + col || r - c === row - col
-    })
-  }
-  const find = (row, tmp = []) => {
-    // 结束条件
-    if (row === n) {
-      console.log(row);
-      res.push(generateStr(tmp))
+  let res = [], path = []
+  backTracking(0)
+  return res
+  function backTracking(row) {
+    if (path.length === n) {
+      res.push(generate(path))
       return
     }
-    for (let col = 0; col < n; col++) {
-      // 判断是否有效
-      if (isValid(row, col, tmp)) {
-        find(row + 1, [...tmp, col])
-      }
+    for (let i = 0; i < n; i++) {
+      // 判断是否符合条件
+      if (isConfilt(row, i)) continue
+      path.push(i)
+      backTracking(row + 1)
+      path.pop()
     }
   }
-  find(0)
-  return res
+
+  function generate(path) {
+    return path.map(i => {
+      let arr = new Array(n).fill('.')
+      arr[i] = 'Q'
+      return arr.join('')
+    })
+  }
+
+  function isConfilt(row, col) {
+    return path.some((c, r) => {
+      // 列是否一样，是否在一个斜线上
+      if (c === col || c + r === col + row || r - c === row - col) {
+        return true
+      }
+    })
+  }
 }
 // 先分析结束条件
 // 1.行不能一样
@@ -76,7 +51,4 @@ var solveNQueens = function (n) {
 // 3.行-列不能一样
 // 4.行+列不能一样
 
-// 定义递归函数的功能
-// 查找第n行的列数据
-// tmp用数组表示，索引是行，索引的值是列
 // @lc code=end

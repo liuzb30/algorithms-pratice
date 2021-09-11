@@ -10,17 +10,10 @@
  * @return {number}
  */
 var fib = function (N) {
-  let cache = [];
-  if (N === 0) return 0;
-  if (N === 1 || N === 2) return 1;
-  let pre = 1,
-    curr = 1;
-  let sum;
-  for (let i = 3; i <= N; i++) {
-    sum = pre + curr;
-    pre = curr;
-    curr = sum;
+  let dp = [0, 1]
+  for (let i = 2; i <= N; i++) {
+    dp[i] = dp[i - 1] + dp[i - 2]
   }
-  return sum;
+  return dp[N]
 };
 // @lc code=end

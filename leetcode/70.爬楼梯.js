@@ -10,16 +10,11 @@
  * @return {number}
  */
 var climbStairs = function (n) {
-  let prev = 0,
-    cur = 1,
-    temp;
-
-  while (n--) {
-    temp = prev;
-    prev = cur;
-    cur += temp; // 当前项 = 当前项 + 上项（使用temp作中间状态存储）
+  if (n < 3) return n
+  let dp = [, 1, 2]
+  for (let i = 3; i <= n; i++) {
+    dp[i] = dp[i - 1] + dp[i - 2]
   }
-
-  return cur;
+  return dp[n]
 };
 // @lc code=end

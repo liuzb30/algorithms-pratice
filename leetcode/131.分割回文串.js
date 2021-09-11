@@ -10,7 +10,7 @@
  * @return {string[][]}
  */
 var partition = function (s) {
-    const res = [], path = []
+    let res = [], path = []
     backTracking(0)
     return res
     function backTracking(startIndex) {
@@ -18,22 +18,22 @@ var partition = function (s) {
             res.push([...path])
             return
         }
+
         for (let i = startIndex; i < s.length; i++) {
             let item = s.slice(startIndex, i + 1)
-            // 判断是否回文
             if (!isValid(item)) continue
             path.push(item)
             backTracking(i + 1)
-            path.pop(item)
+            path.pop()
         }
     }
-
+    // 判断是否回文
     function isValid(s) {
-        let left = 0, right = s.length - 1
-        while (left <= right) {
-            if (s[left] !== s[right]) return false
-            left++
-            right--
+        let left = -1, right = s.length
+        while (++left < --right) {
+            if (s[left] !== s[right]) {
+                return false
+            }
         }
         return true
     }

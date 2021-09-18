@@ -10,21 +10,16 @@
  * @return {number}
  */
 var numSquares = function (n) {
-    let cache = new Set()
-    let queue = []
-    queue.push({ num: n, step: 0 })
-    while (queue.length) {
-        const { num, step } = queue.shift()
-        for (let i = 1; ; i++) {
-            let nextNum = num - i * i
-            if (nextNum < 0) break;
-            if (nextNum === 0) return step + 1
-            if (!cache.has(nextNum)) {
-                cache.add(nextNum)
-                queue.push({ num: nextNum, step: step + 1 })
-            }
+    let dp = new Array(n + 1).fill(Number.MAX_SAFE_INTEGER)
+    dp[0] = 0
+    let len = Math.sqrt(n)
+    for (let i = 0; i <= len; i++) {
+        for (let j = i * i; j <= n; j++) {
+            dp[j] = Math.min(dp[j], dp[j - i * i] + 1)
         }
     }
+    if (dp[n] === Number.MAX_SAFE_INTEGER) return -1
+    return dp[n]
 };
 // @lc code=end
 

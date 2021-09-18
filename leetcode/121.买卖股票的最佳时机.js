@@ -9,22 +9,26 @@
  * @param {number[]} prices
  * @return {number}
  */
+// 贪心算法
+// var maxProfit = function (prices) {
+//   let result = 0, min = prices[0]
+//   for (let i = 1; i < prices.length; i++) {
+//     min = Math.min(min, prices[i])
+//     result = Math.max(prices[i] - min, result)
+//   }
+//   return result
+// };
 var maxProfit = function (prices) {
-  let max = 0;
-  let min = 9999;
-  //   找出最小值
-  for (let i = 0; i < prices.length; i++) {
-    if (min > prices[i]) {
-      min = prices[i];
-    } else if (prices[i] - min > max) {
-      max = prices[i] - min;
-    }
+  let len = prices.length
+  let dp = new Array(len).fill([0, 0])
+  dp[0] = [-prices[0], 0]
+  for (let i = 1; i < len; i++) {
+    dp[i] = [
+      Math.max(dp[i - 1][0], -prices[i]),
+      Math.max(dp[i - 1][1], dp[i - 1][0] + prices[i])
+    ]
   }
-  //   for (let i = 0; i < prices.length; i++) {
-  //     for (let j = i + 1; j < prices.length; j++) {
-  //       max = Math.max(max, prices[j] - prices[i]);
-  //     }
-  //   }
-  return max;
-};
+  return dp[len - 1][1]
+}
+
 // @lc code=end

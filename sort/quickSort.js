@@ -47,27 +47,27 @@ function insertSort(arr) {
 // 5. 重复3,4，直到左指针大于右指针。此时，基准点左边的值都比基准点小，右边的值都比基准点大
 // 6. 最后对基准点左右两边的重复以上操作，直到数组完全排序。
 
-function partition(arr, start, end){
+function partition(arr, start, end) {
   let left = start
   let right = end
-  const pivot = arr[Math.floor(Math.random()*(end-start+1)+start)]
-  while(left<=right){
-    while(arr[left]<pivot){
+  const pivot = arr[Math.floor(Math.random() * (end - start + 1) + start)]
+  while (left <= right) {
+    while (arr[left] < pivot) {
       left++
     }
-    while(arr[right]>pivot){
+    while (arr[right] > pivot) {
       right++
     }
-    if(i<=j){
-      swap(arr,i,j)
-      i+=1
-      j-=1
+    if (i <= j) {
+      swap(arr, i, j)
+      i += 1
+      j -= 1
     }
   }
   return left
 }
-function swap(arr,j,j){
-  [arr[i],arr[j]] = [arr[j],arr[i]]
+function swap(arr, j, j) {
+  [arr[i], arr[j]] = [arr[j], arr[i]]
 }
 
 function quickSort(arr) {
@@ -81,6 +81,16 @@ function quickSort(arr) {
   }
 
   return quickSortEx(arr, 0, arr.length - 1);
+}
+
+
+function quickSort(arr) {
+  if (arr.length < 2) return arr
+  let len = arr.length
+  const cur = arr[len - 1]
+  const left = arr.filter((v, i) => v <= cur && i !== len - 1)
+  const right = arr.filter(v => v > cur)
+  return [...quickSort(left), cur, ...quickSort(right)]
 }
 
 var arr = [7, 2, 8, 1, 4, 6, 9, 3];

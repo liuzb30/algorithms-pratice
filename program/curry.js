@@ -1,22 +1,22 @@
-function curry(fn,) {
-    let args = []
-    return function f(...args2) {
-        args = [...args, ...args2]
-        return args.length === fn.length ? fn(...args) : f
+function curry(fn) {
+    return function f(...args) {
+        return args.length === fn.length ? fn(...args) : (...arg) => f(...args, ...arg)
     }
 }
 
-function curry(fn, ...args) {
-    return [...args].length === fn.length ? fn(...args) : (...args2) => curry(fn, ...args, ...args2)
+// 偏函数
+function partial(fn, ...args) {
+    return (...arg) => fn(...args, ...arg)
 }
 
-function test(a, b) {
-    console.log(a + b);
+
+function add(a, b, c) {
+    return a + b + c
 }
+add(1, 2, 3)
+let addCurry = curry(add)
+const result = addCurry(1)(2)(3)
+console.log(result)
 
-const transformTest = curry(test, 3)
-
-
-transformTest(4)
-transformTest(6)
-transformTest(10)
+let partialAdd = partial(add, 1)
+console.log(partialAdd(2, 3))

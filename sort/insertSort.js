@@ -2,22 +2,16 @@
 // 而把第二个元素到最后一个元素当成是未排序序列；对于未排序的序列进行遍历，将扫描到的每个元素插入有序序列的适当位置，
 // 保证有序序列依然有序，那么直到所有数据都完成，我们也就完成了排序。
 
-const insertSort = (array) => {
-  let prev;
-  let current;
-  for (let i = 1; i < array.length; i++) {
-    prev = i - 1;
-    current = array[i];
-    while (prev >= 0 && array[prev] > current) {
-      array[prev + 1] = array[prev];
-      prev--;
+function insertSort(arr) {
+  for (let i = 1; i < arr.length; i++) {
+    let j = i
+    let target = arr[j]
+    while (j > 0 && arr[j - 1] > target) {
+      arr[j] = arr[j - 1]
+      j--
     }
-    array[prev + 1] = current;
+    arr[j] = target
   }
-  return array;
+  return arr
 };
-
-let arr = [1, 3, 6, 3, 4, 8, 5, 7];
-
-insertSort(arr);
-console.log(arr);
+// console.log(insertSort([1, 3, 6, 3, 4, 8, 5, 7]));

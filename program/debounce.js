@@ -1,40 +1,48 @@
-function debounce(fn, interval = 2000) {
-    let timer = null
-    return function (...args) {
-        if (timer) {
-            clearTimeout(timer)
+// 简单版
+// function debounce(fn, wait) {
+//     let timer = null
+//     return function () {
+//         let context = this
+//         let args = arguments
+//         clearTimeout(timer)
+//         timer = setTimeout(() => {
+//             fn.call(context, ...args)
+//         }, wait);
+//     }
+// }
+
+// 最终版
+// 支持立即执行
+function debounce(fn, wait, immediate) {
+    let timeout, result
+    const debounced = function () {
+        clearTimeout(timeout)
+        if (immediate) {
+            let callNow = !timeout
+            timeout = setTimeout(() => {
+                timeout = null
+            }, wait);
+            if (callNow) result = fn.apply(this, arguments)
+        } else {
+            timeout = setTimeout(() => {
+                fn.apply(this, arguments)
+            }, wait);
         }
-
-        timer = setTimeout(() => {
-            timer = null
-            fn(...args)
-        }, interval);
+        return result
     }
-}
-
-// 立即执行
-function debounce(fn, wait = 2000) {
-    let timer = null
-    return (...args) => {
-        // 如果不存在timer，则执行函数
-        if (!timer) fn(...args)
-        // 存在则清除定时器，设置新的定时器
-        if (timer) clearTimeout(timer)
-        timer = setTimeout(() => {
-            timer = null
-            fn(...args)
-        }, wait);
-
+    debounced.cancel = function () {
+        clearTimeout(timeout)
+        timeout = null
     }
+
+    return debounced
 }
 
 function test(a) {
     console.log(a);
+    return a
 }
 
-const newTest = debounce(test)
-newTest(1)
-newTest(2)
-newTest(3)
-newTest(4)
-newTest(5)
+var newTest = debounce(test, 10000, true);
+console.log(newTest(123))
+newTest.cancel()

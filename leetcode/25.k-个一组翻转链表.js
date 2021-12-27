@@ -90,5 +90,36 @@ var reverseKGroup = function (head, k) {
     return dummyHead.next
 
 }
+
+var reverseKGroup = function (head, k) {
+    // 算出总长度
+    let count = 0, p = head
+    while (p) {
+        count++
+        p = p.next
+    }
+    // 判断长度是否大于k，小于k的话直接返回，大于的话算出要循环的次数
+    if (count < k) return head
+    let loopCount = Math.floor(count / k)
+    let dummpHead = new ListNode()
+    p = dummpHead
+    dummpHead.next = head
+    // 每组反转后需要首尾相接
+    while (loopCount > 0) {
+        let pre = p, cur = p.next
+        for (let i = 0; i < k; i++) {
+            let next = cur.next
+            cur.next = pre
+            pre = cur
+            cur = next
+        }
+        let start = p.next
+        p.next = pre
+        start.next = cur
+        p = start
+        loopCount--
+    }
+    return dummpHead.next
+}
 // @lc code=end
 

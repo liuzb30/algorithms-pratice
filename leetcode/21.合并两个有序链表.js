@@ -17,23 +17,23 @@
  * @param {ListNode} l2
  * @return {ListNode}
  */
-// var mergeTwoLists = function (l1, l2) {
-//     let p = dummyHead = new ListNode()
-//     while (l1 && l2) {
-//         if (l1.val > l2.val) {
-//             p.next = l2
-//             p = p.next
-//             l2 = l2.next
-//         } else {
-//             p.next = l1
-//             p = p.next
-//             l1 = l1.next
-//         }
-//     }
-//     if (l2) p.next = l2
-//     if (l1) p.next = l1
-//     return dummyHead.next
-// };
+var mergeTwoLists = function (l1, l2) {
+    let p = dummyHead = new ListNode()
+    while (l1 && l2) {
+        if (l1.val > l2.val) {
+            p.next = l2
+            p = p.next
+            l2 = l2.next
+        } else {
+            p.next = l1
+            p = p.next
+            l1 = l1.next
+        }
+    }
+    if (l2) p.next = l2
+    if (l1) p.next = l1
+    return dummyHead.next
+};
 
 var mergeTwoLists = function (l1, l2) {
     if (l1 == null) return l2
@@ -46,5 +46,6 @@ var mergeTwoLists = function (l1, l2) {
         return l1
     }
 }
+
 // @lc code=end
 

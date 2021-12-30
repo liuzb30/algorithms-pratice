@@ -74,5 +74,21 @@ var levelOrder = function (root) {
     }
     return res
 }
+
+var levelOrder = function (root) {
+    let queue = [root], res = []
+    while (queue.length) {
+        let len = queue.length
+        let temp = []
+        while (len--) {
+            let node = queue.shift()
+            temp.push(node.val)
+            node.left && queue.push(node.left)
+            node.right && queue.push(node.right)
+        }
+        res.push(temp)
+    }
+    return res
+}
 // @lc code=end
 

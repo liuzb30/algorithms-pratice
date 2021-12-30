@@ -31,20 +31,20 @@ var inorderTraversal = function (root) {
 }
 
 // 迭代
-// var inorderTraversal = function (root) {
-//   const res = [], stack = []
-//   let p = root
-//   while (p || stack.length) {
-//     while (p) {
-//       stack.push(p)
-//       p = p.left
-//     }
-//     let node = stack.pop()
-//     res.push(node.val)
-//     p = node.right
-//   }
-//   return res
-// }
+var inorderTraversal = function (root) {
+  const res = [], stack = []
+  let p = root
+  while (p || stack.length) {
+    while (p) {
+      stack.push(p)
+      p = p.left
+    }
+    let node = stack.pop()
+    res.push(node.val)
+    p = node.right
+  }
+  return res
+}
 // var inorderTraversal = function (root) {
 //   let res = [], stack = []
 //   let cur = root
@@ -76,4 +76,6 @@ var inorderTraversal = function (root) {
   }
   return res
 }
+
+
 // @lc code=end

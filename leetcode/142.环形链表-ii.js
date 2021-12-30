@@ -29,7 +29,11 @@
 //   return null
 // }
 // 思路：利用快慢指针，当快慢指针相遇的时候，再弄一个新的指针从head开始走，慢指针也开始走，当新指针和慢指针相遇的时候就是环的起点。
-// 假设快慢指针在x秒相遇，此时快指针：2x - l =  m*s + y,慢指针：x - l = n*s + y。 l = (m-2n)s - y 。而慢指针从这时开始走l步，相当于走了m-2n圈，再减掉y刚好是环起点的位置。
+// 设链表共有 a+b 个节点，其中 链表头部到链表入口 有 a 个节点（不计链表入口节点）， 链表环 有 b 个节点
+// 设两指针分别走了 f，s 步，fast比slow多走了n个环
+// f=2s  f=s+nb  s=nb
+// 走到入口点的步数k = nb + a 
+// 所以慢指针再走a步就到入口点
 var detectCycle = function (head) {
   if (!head || !head.next) return null;
   let slow = head.next, fast = head.next.next;
@@ -46,5 +50,21 @@ var detectCycle = function (head) {
     }
   }
   return null;
+}
+var detectCycle = function (head) {
+  let slow = fast = head
+  while (fast && fast.next) {
+    slow = slow.next
+    fast = fast.next.next
+    if (slow === fast) {
+      slow = head
+      while (fast !== slow) {
+        slow = slow.next
+        fast = fast.next
+      }
+      return slow
+    }
+  }
+  return null
 }
 // @lc code=end

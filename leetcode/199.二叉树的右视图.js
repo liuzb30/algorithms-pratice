@@ -37,16 +37,14 @@
 // };
 var rightSideView = function (root) {
     if (!root) return []
-    const res = [], queue = [root]
+    let queue = [root], res = []
     while (queue.length) {
         let len = queue.length
+        res.push(queue[queue.length - 1].val)
         while (len--) {
-            const node = queue.shift()
+            let node = queue.shift()
             node.left && queue.push(node.left)
             node.right && queue.push(node.right)
-            if (len === 0) {
-                res.push(node.val)
-            }
         }
     }
     return res

@@ -39,4 +39,5 @@ var maxDepth = function (root) {
   }
   return depth
 }
+
 // @lc code=end
